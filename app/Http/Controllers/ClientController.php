@@ -31,14 +31,24 @@ class ClientController extends Controller
 
     public function store(Request $request){
 
-        $id = IdGenerator::generate(['table' => 'clients', 'length' => 6, 'prefix' => date('y')]);
+        try {
+            $config = [
+                'table' => 'clients',
+                'length' => 8,
+                'prefix' => 'CLE-'
+            ];
+            $id = IdGenerator::generate($config);
+            $clients = new Client();
+            $clients->id = $id;
+            $clients->name = $request->name;
+            $clients->save();
 
-        $clients = new Client();
-        $clients->id = $id;
-        $clients->name = $request->name;
-        $clients->save();
+            return redirect()->route('clients.index');
+        }
 
-        return redirect()->route('clients.index');
+        catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
 
 
     }
@@ -83,8 +93,9 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(request $request)
     {
-        //
+        Client::findOrFail($request->id)->delete();
+        return redirect()->route('clients.index');
     }
 }

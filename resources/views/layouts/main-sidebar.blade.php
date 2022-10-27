@@ -26,6 +26,7 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MAIN NAVIGATION</li>
       <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+      <li><a href="{{ route('clients.index') }}"><i class="fa fa-users"></i> <span>Clients</span></a></li>
     </ul>
   </section>
   <!-- /.sidebar -->
